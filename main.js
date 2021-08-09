@@ -100,4 +100,5 @@ const search = new Search("#search", (text) => {
 createButton.onClick = () => {
   results.addItem(search.value);
   search.clear();
+  createButton.disabled = true;
 };
