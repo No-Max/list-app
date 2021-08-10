@@ -26,9 +26,16 @@ export default class Results extends Component {
   }
 
   render() {
-    this.$element.innerHTML = this._searchResults.reduce(
-      (result, item) => (result += `<li>${item}</li>`),
-      ""
-    );
+    this.$element.innerHTML = this._searchResults.reduce((result, item) => {
+      const newElemennt = `<li>
+          <div>${item}</div>
+          <span>
+            <button>&#9998;</button>
+            <button>&#10006;</button>
+          </span>
+        </li>`;
+      result += newElemennt;
+      return result;
+    }, "");
   }
 }
