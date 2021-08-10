@@ -24,8 +24,17 @@ class Search extends Component {
     super(selector);
     this.$element.addEventListener("input", ({ target }) => {
       this._value = target.value;
-      onInput(this._value.toLowerCase());
+      onInput(this._value.toLowerCase().trim());
     });
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  clear() {
+    this._value = "";
+    this.$element.value = "";
   }
 }
 
@@ -41,6 +50,16 @@ class Results extends Component {
     this._searchResults = this._items.filter((item) =>
       item.toLowerCase().includes(text)
     );
+    this.render();
+  }
+
+  get items() {
+    return this._items;
+  }
+
+  addItem(item) {
+    this._items.push(item);
+    this._searchResults = this._items;
     this.render();
   }
 
@@ -77,4 +96,15 @@ const results = new Results("#results", items);
 
 const search = new Search("#search", (text) => {
   results.searchItems(text);
+  if (results.items.includes(search.value) || text === "") {
+    createButton.disabled = true;
+  } else {
+    createButton.disabled = false;
+  }
 });
+
+createButton.onClick = () => {
+  results.addItem(search.value);
+  search.clear();
+  createButton.disabled = true;
+};
